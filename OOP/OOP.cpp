@@ -4,82 +4,60 @@
 using namespace std;
 
 int counter = 0;
+void Sort(ifstream& ffile, ifstream& ffile2, ofstream& gfile, ifstream& output);
 
-void Read(fstream& ffile, int* massive);
-void SortObmen(int* massive, short counter);
-void Replace(int* massive, int counter);
-void Record(ofstream& gfile, int* massive, int counter);
-	
 int main()
 {
-
-
-	fstream ffile("file.txt", ios::in | ios::out);
+	ifstream ffile("file.txt");
+	ifstream ffile2("file.txt");
 	ofstream gfile("g.txt");
-	int c = 0;
-	if (!ffile || !gfile)
-	{
-		cout << "error";
-	}
-	while (!ffile.eof())
-	{
-		ffile >> c;
-		counter++;
-		cout << c << " ";
-	}
-	int* massive = new int [counter] { 0 };
-	Read(ffile, massive);
-	SortObmen(massive, counter);
-	Replace(massive, counter);
-	Record(gfile, massive, counter);
+	ifstream output("g.txt");
 
+	if (!ffile)
+	{
+		cout << "error ffile";
+		return 1;
+	}
+	Sort(ffile, ffile2, gfile, output);
 	gfile.close();
 	ffile.close();
 	return 0;
 }
 
-void Read(fstream& ffile, int* massive)
+void Sort(ifstream& ffile, ifstream& ffile2, ofstream& gfile, ifstream& output)
 {
-	int l = 0;
-	ffile.seekg(0);
-	while (!ffile.fail())
+	int c = 0;
+	while (ffile>>c)
 	{
-		ffile >> massive[l];
-		l++;
-	}	 
-}
-
-
-void SortObmen(int* massive, short counter)
-{
-	int min = massive[0];
-	for (int i = 0; i < counter - 1; i++)
-	{
-		for (int j = counter - 1; j > i; j--)
+		if (c > 0)
 		{
-			if (massive[j - 1] > massive[j])
-			{
-				min = massive[j - 1];
-				massive[j - 1] = massive[j];
-				massive[j] = min;
-			}
+			gfile.seekp(counter);
+			gfile << c;
+			counter += 10;
 		}
 	}
-}
-
-void Replace(int* massive, int counter)
-{
-	for (int i = 0; i < counter/2; i += 2)
+	counter = 5;
+	while (ffile2>>c)
 	{
-		swap(massive[i], massive[counter - i-1]);
+		if (c < 0)
+		{
+			gfile.seekp(counter);
+			gfile << c;
+			counter += 10;
+		}
 	}
-}
 
-void Record(ofstream& gfile, int* massive, int counter)
-{
-
-	for (int i = 0; i < counter; i++)
+	if (!output)
 	{
-		gfile << massive[i]<<" ";
+		cout << "error output";
 	}
+
+	counter = 5;
+	while (output >> c)
+	{		
+		cout << c << " ";
+		output.seekg(counter);
+		counter += 5;
+	}
+	
 }
