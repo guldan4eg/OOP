@@ -1,11 +1,11 @@
 ﻿#include <iostream>
-#include "list.h"
+#include "List.h"
 
 using namespace std;
 
 int main()
 {
-    list <int> l;
+    List <int> l;
     int n;
     cout << "enter size ";
     cin >> n;
@@ -17,9 +17,10 @@ int main()
         l.push(a);
     }
     int proisv = 1;
-    for (int i = 0; i < n; ++i)
+    for (int i = 0; i < n; i++)
     {
-        proisv *= (l[i*2] - l[2*n - i * 2 - 1]);
+        proisv *= l[i] - l[n*2 - i];
     }
+
     cout << proisv << endl;
 }

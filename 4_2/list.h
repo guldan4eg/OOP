@@ -1,18 +1,14 @@
 #include <iostream>
-#include <set>
 using namespace std;
 
 template<typename T>
-class list
+class List
 {
-private:
+
     struct Node
     {
         T data = 0;
         Node* next = nullptr;
-        Node()
-            : data(0)
-            , next(nullptr) {};
     };
     Node* begin;
     Node* end;
@@ -21,64 +17,57 @@ public:
 
     //Кострукторы 
     //конструктор без параметров 
-    list()
+    List()
         :begin(new Node)
         , end(begin)
     {
-        cout << "конструктор без параметров" << endl;
     }
 
     //конструктор с параметрами 
-    list(T data)
+    List(T data)
         :begin(new Node)
         , end(begin)
     {
-        cout << "конструктор с параметрами" << endl;
-        Node* temporary_list = new Node;
-        end = temporary_list;
+        Node* temporary_List = new Node;
+        end = temporary_List;
         begin->next = end;
         end->data = data;
     }
 
     //деструктор 
-    ~list()
+    ~List()
     {
-        cout << "деструктор" << endl;
-        Node* temporary_list = begin;
+        Node* temporary_List = begin;
         Node* aback = nullptr;
 
-        while (temporary_list != nullptr)
+        while (temporary_List != nullptr)
         {
-            aback = temporary_list;
-            temporary_list = temporary_list->next;
+            aback = temporary_List;
+            temporary_List = temporary_List->next;
             delete aback;
         }
     }
 
     //конструктор копирования 
-    list(const list& obj)
+    List(const List& obj)
     {
-        cout << "конструктор копирования" << endl;
-
-        Node* temporary_list = new Node;
+        Node* temporary_List = new Node;
         Node* copy = (obj.begin)->next;
-        begin = end = temporary_list;
+        begin = end = temporary_List;
 
         while (copy != nullptr)
         {
-            Node* temporary_list = new Node;
-            temporary_list->data = copy->data;
-            end->next = temporary_list;
-            end = temporary_list;
+            Node* temporary_List = new Node;
+            temporary_List->data = copy->data;
+            end->next = temporary_List;
+            end = temporary_List;
             copy = copy->next;
         }
     }
 
     //конструктор перемещения 
-    list(list&& obj)
+    List(List&& obj)
     {
-        cout << "конструктор перемещения" << endl;
-
         begin = obj->begin;
         end = obj->end;
 
@@ -87,10 +76,9 @@ public:
 
     //Операторы 
     //оператор перемещения 
-    list& operator =(list&& obj)
+    List& operator =(List&& obj)
     {
         if (obj == this) return *this;
-        cout << "оператор перемещения" << endl;
         begin = obj->begin;
         end = obj->end;
         obj->begin = obj->end = new Node;
@@ -98,12 +86,11 @@ public:
     }
 
     //оператор копирования 
-    list& operator =(const list& obj)
+    List& operator =(const List& obj)
     {
         if (obj == this) return *this;
-        cout << "оператор копирования" << endl;
-        Node* temporary_list = new Node;
-        Node* t_list = obj.begin->next;
+        Node* temporary_List = new Node;
+        Node* t_List = obj.begin->next;
 
         //очищаем левый список 
         Node* aback = begin, * t = nullptr;
@@ -114,50 +101,69 @@ public:
             delete t;
         }
 
-        begin = end = temporary_list;
+        begin = end = temporary_List;
 
-        while (t_list != nullptr)
+        while (t_List != nullptr)
         {
-            Node* temporary_list = new Node;
-            temporary_list->data = t_list->data;
-            end->next = temporary_list;
-            end = temporary_list;
-            t_list = t_list->next;
+            Node* temporary_List = new Node;
+            temporary_List->data = t_List->data;
+            end->next = temporary_List;
+            end = temporary_List;
+            t_List = t_List->next;
         }
 
         return *this;
+    }
+    T& operator[](const int& ind)
+    {
+        int kol = 0;
+        Node* temporary = nullptr;
+        temporary = begin->next;
+        while (ind != kol)
+        {
+            ++kol;
+            temporary = temporary->next;
+        }
+        return temporary->data;
     }
     //Методы 
     //добавление 
     void push(const T data)
     {
-        Node* temporary_list = new Node;
-        temporary_list->data = data;
-        end->next = temporary_list;
-        end = temporary_list;
+        Node* temporary_List = new Node;
+        temporary_List->data = data;
+        end->next = temporary_List;
+        end = temporary_List;
     }
-
+    //удаление первого
+    void pop()
+    {
+        Node* temporary_List = begin->next;
+        Node* aback = begin;
+        begin = begin->next;
+        delete aback;
+    }
     //удаление элемента по ключу 
     void erase_k(const T data)
     {
-        Node* temporary_list = begin->next;
+        Node* temporary_List = begin->next;
         Node* aback = begin;
 
-        while (temporary_list != nullptr && temporary_list->data != data)
+        while (temporary_List != nullptr && temporary_List->data != data)
         {
-            aback = temporary_list;
-            temporary_list = temporary_list->next;
+            aback = temporary_List;
+            temporary_List = temporary_List->next;
         }
 
-        if (temporary_list != nullptr && temporary_list->data == data)
+        if (temporary_List != nullptr && temporary_List->data == data)
         {
-            if (temporary_list->next == nullptr)
+            if (temporary_List->next == nullptr)
             {
                 end = aback;
             }
 
-            aback->next = temporary_list->next;
-            delete temporary_list;
+            aback->next = temporary_List->next;
+            delete temporary_List;
         }
         else
         {
@@ -168,13 +174,13 @@ public:
     //очистка списка 
     void erase()
     {
-        Node* temporary_list = begin->next;
+        Node* temporary_List = begin->next;
         Node* aback = begin;
 
-        while (temporary_list != nullptr)
+        while (temporary_List != nullptr)
         {
-            aback = temporary_list;
-            temporary_list = temporary_list->next;
+            aback = temporary_List;
+            temporary_List = temporary_List->next;
             delete aback;
         }
         end = begin;
@@ -184,11 +190,11 @@ public:
     //Вывод  
     void output()
     {
-        Node* temporary_list = begin->next;
-        while (temporary_list != nullptr)
+        Node* temporary_List = begin->next;
+        while (temporary_List != nullptr)
         {
-            cout << temporary_list->data << " ";
-            temporary_list = temporary_list->next;
+            cout << temporary_List->data << " ";
+            temporary_List = temporary_List->next;
         }
         cout << endl;
     }
@@ -196,42 +202,21 @@ public:
     //поиск 
     bool search(const T data)
     {
-        Node* temporary_list = begin->next;
+        Node* temporary_List = begin->next;
         Node* aback = begin;
 
-        while (temporary_list != nullptr && temporary_list->data != data)
+        while (temporary_List != nullptr && temporary_List->data != data)
         {
-            aback = temporary_list;
-            temporary_list = temporary_list->next;
+            aback = temporary_List;
+            temporary_List = temporary_List->next;
         }
 
-        if (temporary_list != nullptr && temporary_list->data == data)
+        if (temporary_List != nullptr && temporary_List->data == data)
         {
             return 1;
         }
         return 0;
     }
-
     //ссылочные параметры чтобы конструктор и деструктор лишний раз не вызывался 
-    template<class T>
-    void TASK(list<T>& l1, list<T>& l2)
-    {
-        Node* inser = (l2.begin)->next, * entry = (l1.begin)->next, * l = begin->next, * pr = begin;
-        set<T> number;
-        while (entry)
-        {
-            number.insert(entry->data);
-            entry = entry->next;
-        }
 
-        while (inser)
-        {
-            number.insert(inser->data);
-            inser = inser->next;
-        }
-        for (auto q : number)
-        {
-            this->push(q);
-        }
-    }
 };

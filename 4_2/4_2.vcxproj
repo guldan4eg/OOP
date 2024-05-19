@@ -142,7 +142,7 @@
     <ClCompile Include="4_2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="list.h" />
+    <ClInclude Include="List.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

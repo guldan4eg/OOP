@@ -1,9 +1,9 @@
 #pragma once 
 using namespace std;
 template <typename T>
-class list
+class List
 {
-private:
+public:
     struct Node
     {
         T data;
@@ -20,13 +20,13 @@ private:
 public:
 
     //констуктор без параметров 
-    list()
+    List()
         :begin(new Node)
         , end(begin)
         , size(0) {}
 
     //конструктор с параметрами 
-    explicit list(const T& data)
+    explicit List(const T& data)
         :begin(new Node)
         , end(begin)
         , size(1)
@@ -39,7 +39,7 @@ public:
     }
 
     //конструктор копировани€ 
-    list(const list& obj)
+    List(const List& obj)
     {
         Node* temporary = obj.begin->right;
         Node* copy = new Node;
@@ -57,7 +57,7 @@ public:
     }
 
     //конструктор перемещение 
-    list(list&& obj)
+    List(List&& obj)
     {
         begin = obj.begin;
         end = obj.end;
@@ -70,7 +70,7 @@ public:
     }
 
     //ќператор присвание с копирование 
-    list& operator =(const list& obj)
+    List& operator =(const List& obj)
     {
         //очищаю левый список 
         //правый список копирую в левый 
@@ -104,7 +104,7 @@ public:
     }
 
     //оператор присваивание с перемещением 
-    list& operator =(list& obj)
+    List& operator =(List& obj)
     {
         //очищаю левый список 
         //перемещаю начало и конец списка obj в текущий тип 
@@ -156,44 +156,39 @@ public:
     }
 
     //перегрузка [] 
-    T& operator[](const int& ind)
-    {
+T& operator[](const int& ind)
+{
 
-        if (ind < 0 && size < ind)
-        {
-            cout << "Ќеверный индекс" << endl;
-            abort();
-        }
-        int kol = 0;
-        Node* temporary = begin->right;
+    if (ind < 0 && size < ind)
+    {
+        cout << "Ќеверный индекс" << endl;
+        abort();
+    }
+    int kol = 0;
+    Node* temporary = nullptr;
+    if (ind < size / 2)
+    {
+        temporary = begin->right;
         while (ind != kol)
         {
             ++kol;
             temporary = temporary->right;
         }
-        return temporary->data;
     }
-
-    //константна€ перегрузка 
-    T operator[](const int& ind) const
+    else
     {
-        if (0 > ind && size <= ind)
+        temporary = end;
+        while (ind != size-kol)
         {
-            cout << "Ќеверный индекс" << endl;
-            abort();
+            kol++;
+            temporary = temporary->left;
         }
-        int kol = 0;
-        Node* temporary = begin->right;
-        while (ind != kol)
-        {
-            ++kol;
-            temporary = temporary->right;
-        }
-        return temporary->data;
     }
+    return temporary->data;
+}
 
     //удалени€ всех элементов списка 
-    void erase()
+    void clear()
     {
         Node* temporary = begin->right;
         Node* aback = nullptr;
@@ -226,13 +221,33 @@ public:
         size--;
     }
 
+    //ѕоиск по ключу
+    Node* find(T key)
+    {
+        Node* temporary = begin->right;
+        while (temporary != nullptr && key != temporary->data)
+        {
+            temporary = temporary->right;
+        }
+
+        if (temporary == nullptr)
+        {
+            cout << "“акого элемента нету" << endl;
+            return ;
+            //abort();
+        }
+        else
+        {
+            return temporary;
+        }
+    }
+
     //удаление по ключу элемента  
     void pop_k(T key)
     {
         if (size == 0)
         {
-            cout << "Ѕольше нечего удал€ть" <<
-                endl;
+            cout << "Ѕольше нечего удал€ть" <<endl;
             return;
         }
         Node* temporary = begin->right;
