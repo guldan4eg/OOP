@@ -42,6 +42,7 @@ int main()
         l1.push(b);
     }
 	cout << "enter l2: ";
+
     for (int i = 0; i < 4; ++i)
     {
         char b;
