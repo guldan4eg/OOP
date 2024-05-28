@@ -52,6 +52,19 @@ Complex& Complex::operator=(const Complex & term)
 	m_im = term.m_im;
 	return *this;
 }
+Complex& Complex::operator = (Complex&& term)
+{
+	m_ang = term.m_ang;
+	m_mod = term.m_mod;
+	m_re = term.m_re;
+	m_im = term.m_im;
+	term.m_ang=0;
+	term.m_mod=0;
+	term.m_re=0;
+	term.m_im=0;
+	return *this;
+}
+
 Complex& Complex::operator = (double r)
 {
 	m_re = r;   m_im = 0;
@@ -66,14 +79,41 @@ Complex operator >(const Complex& term, const int l)
 	result.m_im = b * sin(term.m_ang / l);
 	return result;
 }
-//istream& operator >>(istream& str, const Complex& enter)
-//{
-//	double mod = 0, ang = 0;
-//	str >> mod >> ang;
-//	enter = Complex(mod, ang);
-//	return str;
-//}
+istream& operator >>(istream& str, Complex& enter)
+{
+	double mod = 0, ang = 0;
+	str >> mod >> ang;
+	enter = Complex(mod, ang);
+	return str;
+}
+ostream& operator <<(ostream& out, Complex& term)
+{
+	if (term.m_im < 0) return out << term.m_re << term.m_im << "i";
+	else   return out << term.m_re << "+" << term.m_im << "i";
+}
+
+
 void Complex::print()
 {
-	cout<<cos(M_PI/3)<<" " << m_re << "+" << m_im << "i ";
+	cout<< m_re << "+" << m_im << "i ";
+}
+
+Complex::Complex(const Complex& other)
+{
+	this->m_ang = other.m_ang;
+	this->m_im = other.m_im;
+	this->m_mod = other.m_mod;
+	this->m_re = other.m_re;
+}
+
+Complex::Complex(Complex&& other)
+{
+	this->m_ang = other.m_ang;
+	this->m_im = other.m_im;
+	this->m_mod = other.m_mod;
+	this->m_re = other.m_re;
+	other.m_ang = 0;
+	other.m_im = 0;
+	other.m_mod = 0;
+	other.m_re = 0;
 }

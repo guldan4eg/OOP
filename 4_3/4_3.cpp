@@ -19,7 +19,7 @@ int main()
     int proisv = 1;
     for (int i = 0; i < n; i++)
     {
-        proisv *= l[i] - l[n*2 - i];
+        proisv *= l[i] - l[n*2 - 1 - i];
     }
 
     cout << proisv << endl;

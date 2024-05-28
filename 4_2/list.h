@@ -116,6 +116,11 @@ public:
     }
     T& operator[](const int& ind)
     {
+        if (ind < 0)
+        {
+            cout << "Error ";
+            abort();
+        }
         int kol = 0;
         Node* temporary = nullptr;
         temporary = begin->next;

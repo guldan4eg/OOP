@@ -1,5 +1,5 @@
 #pragma once
-
+using namespace std;
 class Complex
 {
 	double m_mod;  
@@ -20,7 +20,11 @@ public:
 		m_ang(ang), m_re(cos(ang)* mod)
 	{};
 	//копирование
-
+	Complex(const Complex& other);
+	Complex& operator = (const Complex& other);
+	//перемещение
+	Complex(Complex&& other);
+	Complex& operator = (Complex&& other);
 	//деструктор
 	~Complex()
 	{};
@@ -29,11 +33,11 @@ public:
 	friend Complex operator -(const Complex& term1, const Complex& term2);
 	friend Complex operator *(const Complex& term1, const Complex& term2);
 	friend Complex operator /(const Complex& term1, const Complex& term2);
-	Complex& operator=(const Complex &term);
 	friend Complex operator ^(const Complex& term,const int l);
+	friend istream& operator >>(istream& in, Complex& term);
+	friend ostream& operator <<(ostream& out, Complex& term);
 	friend Complex operator >(const Complex& term, const int l);
 	Complex& operator = (double r);
-	//friend istream& operator >>(istream& str, const Complex& enter);
 	//методы 
 	//вывод
 	void print();

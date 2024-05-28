@@ -106,9 +106,19 @@ public:
     //оператор присваивание с перемещением 
     List& operator =(List& obj)
     {
+        if (obj.begin() == this->begin())
+        {
+            cout << "Cannot move there";
+            abort();
+        }
         //очищаю левый список 
         //перемещаю начало и конец списка obj в текущий тип 
         //создаю новую head для obj 
+        if (obj.begin = this->begin)
+        {
+            cout << "Error";
+            return this;
+        }
 
         Node* temporary = begin;
         Node* aback = nullptr;
@@ -159,7 +169,7 @@ public:
 T& operator[](const int& ind)
 {
 
-    if (ind < 0 && size < ind)
+    if (ind < 0 || size < ind)
     {
         cout << "Неверный индекс" << endl;
         abort();
@@ -183,6 +193,7 @@ T& operator[](const int& ind)
             kol++;
             temporary = temporary->left;
         }
+        temporary = temporary->right;
     }
     return temporary->data;
 }
