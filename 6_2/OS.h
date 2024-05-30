@@ -1,4 +1,5 @@
 #pragma once
+
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -19,10 +20,10 @@ public:
 		cout << "X Y Height Width: ";
 		in >> x >> y >> height >> width;
 	}
-	virtual void print(ostream& out) const \
+	virtual void print(ostream& out) const
 	{
 		cout << "X Y Height Width: ";
-		out << x << y << height << width;
+		out << x << " " << y << " " << height << " " << width;
 	}
 	OS& operator=(const OS& other);
 	OS& operator=(OS&& other);
@@ -54,7 +55,7 @@ public:
 	virtual void print(ostream& out) const override
 	{
 		OS::print(out);
-		out << "Text is: ";
+		out << "\nText is: ";
 		for (int i = 0; i < 20; i++)
 		{
 			out << txt[i];
@@ -113,12 +114,14 @@ public:
 	~TextBox() = default;
 	void fill(istream& in)
 	{
+		cout << "for textbox: ";
 		Text::fill(in);
-		cout << "\nIs it only for read?" << endl;
+		cout << "\nIs it only for read?\n" << endl;
 		in >> readonly;
 	}
 	void print(ostream& out) const
 	{
+		cout << "for textbox: ";
 		Text::print(out);
 		if (readonly)
 			out << "\nOnly for read\n ";
@@ -209,94 +212,7 @@ public:
 	}
 	~Ellips() = default;
 };
-void ClearArr(vector<OS*>& arr)
-{
-	for (unsigned int i = 0; i < arr.size(); i++)
-		delete arr[i];
-	arr.clear();
-}
-void ClearArr(vector<Text*>& arr)
-{
-	for (unsigned int i = 0; i < arr.size(); i++)
-		delete arr[i];
-	arr.clear();
-}
-void Vvod(vector<OS*>& arr, unsigned int n)
-{
-	ClearArr(arr);//если передан не пустой массив - очистить
-	while (arr.size() < n)
-	{
-		int type = 0;
-		cout << "Input type of object:\n";
-		cout << "Text - 1; Ellips - 2 \n";
-		cin >> type;
-		switch (type)
-		{
-		case 1:
-		{
-			Text* st = new Text();
-			st->fill(cin);
-			arr.push_back(st);
-			break;
-		}
-		case 2:
-		{	Ellips* p = new Ellips();
-		cin >> *p;
-		arr.push_back(p);
-		break;
-		}
-		default:
-			cout << "Error";
-		}
-	}
-}
 
-void Vvod(vector<Text*>& arr, unsigned int n)
-{
-	ClearArr(arr);//если передан не пустой массив - очистить
-	while (arr.size() < n)
-	{
-		int type = 0;
-		cout << "Input type of object:\n";
-		cout << "Url - 1; TextBox - 2; Button - 3 \n";
-		cin >> type;
-		switch (type)
-		{
-		case 1:
-		{
-			HyperLink* st = new HyperLink();
-			st->fill(cin);
-			arr.push_back(st);
-			break;
-		}
-		case 2:
-		{	TextBox* p = new TextBox();
-		cin >> *p;
-		arr.push_back(p);
-		break;
-		}
-		case 3:
-		{
-			Button* b = new Button();
-			cin >> *b;
-			arr.push_back(b);
-			break;
-		}
-		default:
-			cout << "Error";
-		}
-	}
-}
-// вывод массива сотрудников
-void Vyvod(const vector<OS*>& arr)
-{
-	for (unsigned int i = 0; i < arr.size(); i++)
-		cout << *arr[i];
-}
-void Vyvod(const vector<Text*>& arr)
-{
-	for (unsigned int i = 0; i < arr.size(); i++)
-		cout << *arr[i];
-}
-// освободить память
+
+
 
